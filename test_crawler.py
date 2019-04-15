@@ -12,7 +12,8 @@ def getter():
             counter = 1
             while True:
                 response = requests.Response()
-                response._content = f'<html><a href="https://www{counter}.touchsurgery.com"></a></html>'
+                page = f'<html><a href="https://www{counter}.touchsurgery.com"></a></html>'
+                response._content = bytes(page, 'utf8')
                 counter += 1
                 yield response
 
