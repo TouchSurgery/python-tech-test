@@ -1,29 +1,28 @@
 from html.parser import HTMLParser
 
-class LinkParser(HTMLParser):
 
+class LinkParser(HTMLParser):
     def __init__(self, base_url, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.base_url = base_url
         self.link_hrefs = set()
 
     def handle_starttag(self, tag, attrs):
-        if tag == 'a':
+        if tag == "a":
             for name, value in attrs:
-                if name == 'href':
-                    if 'http' not in value:
+                if name == "href":
+                    if "http" not in value:
                         value = self.base_url + value
                     self.link_hrefs.add(value)
 
 
 def extract_links(text, base_url):
     parser = LinkParser(base_url)
-    parser.feed(str(text, 'utf8'))
+    parser.feed(str(text, "utf8"))
     return list(parser.link_hrefs)
 
 
 class Crawler:
-
     def __init__(self, url, getter):
         self.links_to_visit = [url]
         self.visited_links = []
@@ -41,4 +40,3 @@ class Crawler:
 
         if iterations > 0:
             self.start(iterations - 1)
-
