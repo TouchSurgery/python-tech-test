@@ -5,7 +5,7 @@ import threading
 class Crawler:
     def __init__(self, url, getter):
         self.links_to_visit = [url]
-        self.visited_links = []
+        self.links_visited = []
         self.get = getter
 
     def start(self, iterations):
@@ -14,7 +14,7 @@ class Crawler:
             response = self.get(link)
             links = extract_links(response.content, link)
             links_discovered.extend(links)
-            self.visited_links.append(link)
+            self.links_visited.append(link)
 
         self.links_to_visit = links_discovered
 
