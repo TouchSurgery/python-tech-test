@@ -1,4 +1,5 @@
 from html.parser import HTMLParser
+import threading
 
 
 class Crawler:
@@ -18,7 +19,8 @@ class Crawler:
         self.links_to_visit = links_discovered
 
         if iterations > 0:
-            self.start(iterations - 1)
+            thread = threading.Thread(target=self.start, args=iterations -1)
+            thread.start()
 
 
 class LinkParser(HTMLParser):
