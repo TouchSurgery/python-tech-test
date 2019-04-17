@@ -13,7 +13,9 @@ class Crawler:
         for link in self.links_to_visit:
             response = self.get(link)
             links = extract_links(response.content, link)
-            links_discovered.extend(links)
+            parser = LinkParser(link)
+            parser.feed(str(response.content, "utf8"))
+            links_discovered.extend(parser.link_hrefs)
             self.links_visited.append(link)
 
         self.links_to_visit = links_discovered
@@ -36,9 +38,3 @@ class LinkParser(HTMLParser):
                     if "http" not in value:
                         value = self.base_url + value
                     self.link_hrefs.add(value)
-
-
-def extract_links(text, base_url):
-    parser = LinkParser(base_url)
-    parser.feed(str(text, "utf8"))
-    return list(parser.link_hrefs)
